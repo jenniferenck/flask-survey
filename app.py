@@ -12,11 +12,13 @@ comments = []
 
 @app.route('/')
 def select_survey():
+    '''Initial landing page that allows you to select a survey to take'''
     return render_template('select.html', surveys=surveys)
 
 
 @app.route('/', methods=["POST"])
 def redirect_selected_survey():
+    '''Redirects to the survey endpoint'''
     selected = request.form['selected_survey']
     global curr_survey
     curr_survey = surveys[selected]
@@ -44,19 +46,6 @@ def question_page(selected_survey, number):
         survey.append(request.form['answer'])
         session['survey'] = survey
         comment = request.form.get('comment', None)
-        print(f"""
-        
-        {comment}
-        
-        
-        """)
-        comments.append(comment)
-        print(f"""
-        
-        {comments}
-        
-        
-        """)
 
     if number < len(curr_survey.questions):
         return render_template(
@@ -71,6 +60,7 @@ def question_page(selected_survey, number):
 
 @app.route('/thanks')
 def thanks():
+    '''Generates a thanks page that shows your answers'''
     return render_template(
         'thanks.html',
         comments=comments,

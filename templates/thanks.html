@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>Thanks for taking the survey!</h1>
+<div>Here are your answers:</div>
+<ul>
+  {% for answer in session.survey %}
+  <li>{{ answer }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Question Number {{ number }}
+{% endblock %}
+
 {% block body %}
-<form action="/questions/{{ number }}" method="POST">
+<form action="/{{survey}}/questions/{{ number }}" method="POST">
   <h2>{{ question.question }}</h2>
   {% for q in question.choices %}
   <div>
@@ -9,6 +13,9 @@
     <label for="{{ q }}">{{ q }}</label>
   </div>
   {% endfor %}
+  {% if question.allow_text %}
+  <input type="text" name="comment" id="comment" placeholder="Any comments?">
+  {% endif %}
   <div>
     <button type="submit">Submit</button>
   </div>

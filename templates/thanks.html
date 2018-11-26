@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
+{% block title %}
+Thanks for taking the survey!
+{% endblock %}
+
 {% block body %}
 <h1>Thanks for taking the survey!</h1>
 <div>Here are your answers:</div>
 <ul>
-  {% for answer in session.survey %}
-  <li>{{ answer }}</li>
+  {% for index, answer in enum %}
+  <li><b>{{ question[index - 1].question }}</b> {{ answer }}</li>
+  {% if comments[index] %}
+  <ul><li>{{ comments[index] }}</li></ul>
+  {% endif %}
   {% endfor %}
 </ul>
 {% endblock %}

@@ -1,11 +1,11 @@
 from flask import Flask, request, session, render_template, redirect
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 from surveys import surveys
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "blah"
 
-# debug = DebugToolbarExtension(app)
+debug = DebugToolbarExtension(app)
 curr_survey = surveys['satisfaction']
 
 

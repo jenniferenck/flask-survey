@@ -5,7 +5,7 @@ Question Number {{ number }}
 {% endblock %}
 
 {% block body %}
-<form action="/{{survey}}/questions/{{ number }}" method="POST">
+<form action="/survey/{{survey}}/questions/{{ number }}" method="POST">
   <h2>{{ question.question }}</h2>
   {% for q in question.choices %}
   <div>

@@ -5,7 +5,7 @@ Start a survey
 {% endblock %}
 
 {% block body %}
-  <form action="{{ survey }}/questions/0" method="POST">
+  <form action="/survey/{{ survey }}/questions/0" method="POST">
     <h1>{{ title }}</h1>
     <p>
       {{ instructions }}

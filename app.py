@@ -7,7 +7,6 @@ app.config['SECRET_KEY'] = "blah"
 
 # debug = DebugToolbarExtension(app)
 curr_survey = surveys['satisfaction']
-comments = []
 
 
 @app.route('/')
@@ -22,14 +21,15 @@ def redirect_selected_survey():
     selected = request.form['selected_survey']
     global curr_survey
     curr_survey = surveys[selected]
-    return redirect(f'/{selected}')
+    return redirect(f'/survey/{selected}')
 
 
-@app.route('/<selected_survey>')
+@app.route('/survey/<selected_survey>')
 def start_survey(selected_survey):
     '''Generates the starter page for starting a survey'''
 
     session['survey'] = []
+    session['comments'] = []
     return render_template(
         'survey.html',
         survey=selected_survey,
@@ -37,7 +37,8 @@ def start_survey(selected_survey):
         instructions=curr_survey.instructions)
 
 
-@app.route('/<selected_survey>/questions/<int:number>', methods=["POST"])
+@app.route(
+    '/survey/<selected_survey>/questions/<int:number>', methods=["POST"])
 def question_page(selected_survey, number):
     '''Loops through each question and updates the survey answers in the session list.'''
 
@@ -45,15 +46,15 @@ def question_page(selected_survey, number):
         survey = session['survey']
         survey.append(request.form['answer'])
         session['survey'] = survey
-        comment = request.form.get('comment', None)
-        global comments
-        comments.append(comment)
+        comments = session['comments']
+        comments.append(request.form.get('comment', None))
+        session['comments'] = comments
 
     if number < len(curr_survey.questions):
         return render_template(
             'questions.html',
             survey=selected_survey,
-            comments=comments,
+            comments=session['comments'],
             question=curr_survey.questions[number],
             number=number + 1)
     else:
@@ -65,6 +66,6 @@ def thanks():
     '''Generates a thanks page that shows your answers'''
     return render_template(
         'thanks.html',
-        comments=comments,
+        comments=session['comments'],
         enum=enumerate(session['survey']),
         question=curr_survey.questions)

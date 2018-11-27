@@ -46,6 +46,7 @@ def question_page(selected_survey, number):
         survey.append(request.form['answer'])
         session['survey'] = survey
         comment = request.form.get('comment', None)
+        comments.append(comment)
 
     if number < len(curr_survey.questions):
         return render_template(
